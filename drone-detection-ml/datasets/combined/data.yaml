@@ -1,0 +1,6 @@
+path: /home/filipp/Projects/munich-hack/drone-detection-ml/datasets/combined
+train: train/images
+val: valid/images
+
+nc: 1
+names: ['drone']

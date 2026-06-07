@@ -1,0 +1,38 @@
+name: Deploy system2-api
+
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: dronedetectionacr.azurecr.io
+  IMAGE: system2-api
+  CONTAINER_APP: system2-api
+  RESOURCE_GROUP: drone-detection
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push image
+        run: |
+          az acr build \
+            --registry dronedetectionacr \
+            --image ${{ env.IMAGE }}:${{ github.sha }} \
+            --image ${{ env.IMAGE }}:latest \
+            .
+
+      - name: Deploy to Container App
+        run: |
+          az containerapp update \
+            --name ${{ env.CONTAINER_APP }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --image ${{ env.REGISTRY }}/${{ env.IMAGE }}:${{ github.sha }}

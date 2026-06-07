@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 1
+names: ['UAV']
+
+roboflow:
+  workspace: yolov8-drone-detection
+  project: yolov8_detfly-02
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/yolov8-drone-detection/yolov8_detfly-02/dataset/1

@@ -1,0 +1,386 @@
+@import "tailwindcss";
+
+@theme {
+  /* Light surfaces — token names retained so every existing utility keeps
+     working; values flipped from charcoals to off-whites. */
+  --color-ops-950: #ffffff;
+  --color-ops-900: #ffffff;
+  --color-ops-850: #fafbfc;
+  --color-ops-800: #f1f5f9;
+  --color-ops-750: #e8edf3;
+  --color-ops-700: #e2e8f0;
+  --color-ops-600: #cbd5e1;
+
+  /* Single accent — neutral dark slate. Used for interactive/active states
+     across the UI. No blue, no cyan, no gradient. */
+  --color-glow-400: #475569;
+  --color-glow-500: #1f2937;
+  --color-glow-700: #0f172a;
+
+  /* Permanent-zone tone — muted slate, NOT green. Distinction from temporary
+     is by label only, not color (every no-fly zone reads red on the map). */
+  --color-radar-400: #64748b;
+  --color-radar-600: #475569;
+
+  /* The ONLY chromatic accent — red, used for no-fly fills and active alerts.
+     Nothing else in the UI uses this hue. */
+  --color-alarm-400: #ef4444;
+  --color-alarm-500: #dc2626;
+  --color-alarm-warn: #b45309;
+
+  /* Ink (text) — high contrast on white */
+  --color-ink-hi: #0f172a;
+  --color-ink-med: #475569;
+  --color-ink-lo: #94a3b8;
+
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), Menlo, monospace;
+}
+
+html,
+body {
+  height: 100%;
+  background: var(--color-ops-900);
+  color: var(--color-ink-hi);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Terra Draw control toolbar — hidden; the left sidebar drives draw modes. */
+.maplibregl-ctrl-group.maplibregl-ctrl {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px -10px rgba(15, 23, 42, 0.15);
+}
+.maplibregl-ctrl-group button {
+  background-color: transparent;
+}
+.maplibregl-ctrl-group button:hover {
+  background-color: rgba(15, 23, 42, 0.06);
+}
+.maplibregl-ctrl-group button.active {
+  background-color: rgba(15, 23, 42, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.4);
+}
+
+/* Hide the terra-draw floating toolbar — the left sidebar now exposes
+   draw modes via programmatic td.setMode(). NavigationControl lives on
+   the right so the blanket top-left rule is safe. */
+.maplibregl-ctrl-top-left {
+  display: none !important;
+}
+
+/* Camera popup — single-source styling for the click-to-feed HTML. */
+.maplibregl-popup-content {
+  padding: 0 !important;
+  border-radius: 10px !important;
+  overflow: hidden;
+  border: 1px solid var(--color-ops-700);
+  box-shadow: 0 8px 28px -10px rgba(15, 23, 42, 0.2);
+}
+.maplibregl-popup-close-button {
+  font-size: 16px !important;
+  color: var(--color-ink-lo) !important;
+  padding: 4px 8px !important;
+}
+.cam-popup__head {
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid var(--color-ops-700);
+  background: var(--color-ops-850);
+}
+.cam-popup__title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-ink-hi);
+  line-height: 1.3;
+}
+.cam-popup__meta {
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-lo);
+  text-transform: uppercase;
+}
+.cam-popup__body { background: #f5f7fa; }
+.cam-popup__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: cover;
+}
+.cam-popup__iframe {
+  display: block;
+  width: 100%;
+  height: 200px;
+  border: 0;
+  background: #000;
+}
+.cam-popup__fallback {
+  padding: 24px 12px;
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--color-ink-med);
+}
+
+/* Sim CCTV popup — Unity simulation camera feed styled like a real
+   surveillance monitor: black bezel, REC pulse, corner brackets,
+   scanline overlay, monospace telemetry bar. */
+.sim-cam-popup-container .maplibregl-popup-content {
+  background: #000 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 8px 28px -6px rgba(0, 0, 0, 0.6) !important;
+}
+.sim-cam-popup-container .maplibregl-popup-tip {
+  border-top-color: #000 !important;
+  border-bottom-color: #000 !important;
+}
+.sim-cam-popup-container .maplibregl-popup-close-button {
+  color: #94a3b8 !important;
+  z-index: 1;
+}
+.sim-cam-popup {
+  background: #000;
+  font-family: var(--font-mono);
+  color: #cbd5e1;
+  width: 260px;
+}
+.sim-cam-popup__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: #0b0b0b;
+  border-bottom: 1px solid #1f2937;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.sim-cam-popup__id {
+  color: #22c55e;
+  font-weight: 700;
+}
+.sim-cam-popup__rec {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #f87171;
+  font-weight: 700;
+  margin-left: auto;
+}
+.sim-cam-popup__rec::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 6px #ef4444;
+  animation: sim-cam-popup__blink 1.2s steps(2, start) infinite;
+}
+.sim-cam-popup__live {
+  color: #22c55e;
+  border: 1px solid #14532d;
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: #052e16;
+}
+@keyframes sim-cam-popup__blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.25; }
+}
+.sim-cam-popup__feed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+.sim-cam-popup__feed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+/* When the iframe is the fullscreen element, browsers max it to viewport
+   — strip our aspect-ratio cap so the video actually fills the screen. */
+.sim-cam-popup__feed iframe:fullscreen,
+.sim-cam-popup__feed iframe:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+}
+/* Fullscreen toggle — small icon button pinned bottom-right of the feed.
+   z-index above the scanline overlay (::before, pointer-events:none). */
+.sim-cam-popup__fs {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #1f2937;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #cbd5e1;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  z-index: 3;
+  transition: background 120ms, color 120ms;
+}
+.sim-cam-popup__fs:hover {
+  background: rgba(34, 197, 94, 0.85);
+  color: #052e16;
+}
+/* Subtle scanlines + slight vignette over the feed */
+.sim-cam-popup__feed::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.025) 0px,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgba(0, 0, 0, 0.45) 100%
+    );
+  mix-blend-mode: overlay;
+}
+/* 4 corner brackets — purely decorative */
+.sim-cam-popup__feed::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  pointer-events: none;
+  background:
+    linear-gradient(#22c55e, #22c55e) top left / 12px 1.5px no-repeat,
+    linear-gradient(#22c55e, #22c55e) top left / 1.5px 12px no-repeat,
+    linear-gradient(#22c55e, #22c55e) top right / 12px 1.5px no-repeat,
+    linear-gradient(#22c55e, #22c55e) top right / 1.5px 12px no-repeat,
+    linear-gradient(#22c55e, #22c55e) bottom left / 12px 1.5px no-repeat,
+    linear-gradient(#22c55e, #22c55e) bottom left / 1.5px 12px no-repeat,
+    linear-gradient(#22c55e, #22c55e) bottom right / 12px 1.5px no-repeat,
+    linear-gradient(#22c55e, #22c55e) bottom right / 1.5px 12px no-repeat;
+  opacity: 0.7;
+}
+.sim-cam-popup__telemetry {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: #1f2937;
+  border-top: 1px solid #1f2937;
+  font-size: 10px;
+}
+.sim-cam-popup__telemetry > div {
+  background: #0b0b0b;
+  padding: 4px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.sim-cam-popup__telemetry .label {
+  color: #64748b;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.sim-cam-popup__telemetry .value {
+  color: #e2e8f0;
+  font-size: 11px;
+  font-weight: 600;
+}
+.sim-cam-popup__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 4px 8px;
+  background: #0b0b0b;
+  border-top: 1px solid #1f2937;
+  font-size: 9px;
+  color: #64748b;
+  letter-spacing: 0.05em;
+}
+.sim-cam-popup__footer a {
+  color: #22c55e;
+  text-decoration: none;
+}
+.sim-cam-popup__footer a:hover { text-decoration: underline; }
+
+/* Map attribution — visible but quiet against white */
+.maplibregl-ctrl-attrib {
+  background: rgba(255, 255, 255, 0.7) !important;
+  color: var(--color-ink-lo);
+  font-size: 10px;
+}
+.maplibregl-ctrl-attrib a {
+  color: var(--color-ink-med);
+}
+
+/* Slide-in animation for the sidebar's expanded panel. Keeps the open feel
+   snappy — 180ms, no bounce, subtle transform so layout doesn't jitter. */
+@keyframes panel-slide-in {
+  from {
+    transform: translateX(-8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.panel-slide-in {
+  animation: panel-slide-in 180ms ease-out;
+}
+
+/* Drawing-state cursor — flipped by DrawStatusBanner via body class. */
+body.is-drawing .maplibregl-canvas-container,
+body.is-drawing .maplibregl-canvas {
+  cursor: crosshair !important;
+}
+
+/* Scrollbars in side panels */
+.ops-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.ops-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ops-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-ops-700);
+  border-radius: 4px;
+}
+.ops-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ops-600);
+}
+
+/* Pulsing dot — removed per design guidance (no neon, no animation noise).
+   .ops-pulse kept as a no-op so existing markup compiles. */
+.ops-pulse { animation: none; }
+
+/* Scan-line grid — removed; empty states now use a plain bordered card. */
+.ops-grid { background-image: none; }
+
+/* One-shot shake — kept subtle for the alert count chip so a new arrival is
+   noticeable without being cartoonish. */
+@keyframes ops-shake {
+  0% { transform: translateX(-1px); }
+  50% { transform: translateX(1px); }
+  100% { transform: translateX(0); }
+}
+.ops-shake {
+  animation: ops-shake 0.3s ease-out 1;
+}

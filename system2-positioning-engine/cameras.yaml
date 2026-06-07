@@ -1,0 +1,43 @@
+# Generated from Unity UDP GT — see tools/gen_camera_configs.py in system1.
+# reference_origin is HK_CENTER, the SAME anchor used by
+# Orgs/system4-unity-simulation/Tools/export_camera_geojson.py and by
+# Orgs/frontend/src/components/map-canvas.tsx. Unity world axes map to ENU
+# (E=unity_x, N=unity_z, U=unity_y). Camera GPS are round-tripped from
+# Unity world coords via system2's ECEF↔ENU conversion.
+reference_origin:
+  lat: 22.318
+  lon: 114.169
+  alt_m: 0.0
+cameras:
+- id: cam_01
+  lat: 22.3118592
+  lon: 114.169
+  alt_m: 15.036
+- id: cam_02
+  lat: 22.31348465
+  lon: 114.17433802
+  alt_m: 55.043
+- id: cam_03
+  lat: 22.31664531
+  lon: 114.17530866
+  alt_m: 100.035
+- id: cam_04
+  lat: 22.32206358
+  lon: 114.17385294
+  alt_m: 190.036
+- id: cam_05
+  lat: 22.32341828
+  lon: 114.169
+  alt_m: 90.028
+- id: cam_06
+  lat: 22.32206358
+  lon: 114.16366175
+  alt_m: 160.04
+- id: cam_07
+  lat: 22.31483921
+  lon: 114.16298255
+  alt_m: 65.04
+- id: cam_08
+  lat: 22.31845149
+  lon: 114.169
+  alt_m: 550.0

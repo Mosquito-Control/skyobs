@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+*.egg-info/
+detected.jpg
+samples_annotated/
+*.mp4
+# keep the bundled nano model tracked; ignore downloaded/exported large models
+*.pt
+models/*.onnx
+!models/yolov8n-drone.onnx
