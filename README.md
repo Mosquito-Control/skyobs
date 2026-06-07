@@ -2,6 +2,8 @@
 
 Real-time drone airspace monitoring system. Detects drones via fixed cameras, triangulates their GPS position, tracks them over time, and alerts operators when drones enter restricted zones.
 
+> Hackathon disclosure: what works, what is mocked, and what is pre-built — [HONESTY.md](./HONESTY.md)
+
 ---
 
 ## How it works
