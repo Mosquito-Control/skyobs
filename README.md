@@ -51,6 +51,8 @@ Full model cards, benchmarks, and usage: [`drone-detection-ml/`](../drone-detect
 
 ## Live URLs (Azure, westeurope)
 
+> **Note:** These services are live but will show no drone data unless System 1 is running and connected to either the Unity simulator (System 5, runs locally) or physical cameras. The dashboard (System 3) shows synthetic background drones for demo purposes even without a live feed — see [HONESTY.md](./HONESTY.md).
+
 | Service | URL |
 |---|---|
 | System 2 API | `https://system2-api.agreeablesea-31719cb5.westeurope.azurecontainerapps.io` |
