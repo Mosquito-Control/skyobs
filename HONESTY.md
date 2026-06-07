@@ -63,6 +63,7 @@ Anything written **before** kickoff that we brought into this project: prior per
 |---|---|---|---|
 | YOLOv8n baseline weights (`yolov8s.pt`) | Ultralytics YOLOv8 — off-the-shelf pretrained model | Model weights only; all inference wrapper code written during hackathon | AGPL-3.0 |
 | mediamtx binary | [github.com/bluenviron/mediamtx](https://github.com/bluenviron/mediamtx) — open-source RTSP/RTMP server | Binary bundled in System 5 repo; no source modifications | MIT |
+| Pre-hackathon research notes | Internal notes covering idea viability and OS/stack compatibility (CachyOS/Arch Linux vs Ubuntu, simulator options, equivalent stack ranking) | Research and written notes only — no code, no implementation, no prototype was produced before kickoff | N/A |
 
 All application code across all five systems (System 1–5 repos) was written during the hackathon window. The YOLOv11x fine-tune (training data prep, training run, evaluation, HuggingFace upload) was also performed during the hackathon.
 
